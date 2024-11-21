@@ -1,0 +1,16 @@
+{
+  "name": "qr-pastebin",
+  "version": "1.0.0",
+  "description": "A lightweight, browser-based QR code reader that works directly with clipboard images. Simply take a screenshot of any QR code and paste it into the web app to instantly decode its contents.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "terser src/main.js -c -m -o dist/main.min.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "terser": "^5.36.0"
+  }
+}
