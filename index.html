@@ -72,7 +72,8 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
 
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" as="script">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" async defer></script>
     <style>
         /* Reset and base styles */
         * {
@@ -440,7 +441,27 @@
             }, 1000);
         }
 
+        // Wait for jsQR to load
+        function ensureJsQRLoaded() {
+            return new Promise((resolve) => {
+                if (window.jsQR) {
+                    resolve();
+                } else {
+                    window.addEventListener('load', function checkJsQR() {
+                        if (window.jsQR) {
+                            window.removeEventListener('load', checkJsQR);
+                            resolve();
+                        }
+                    });
+                }
+            });
+        }
+
+        // Update your processImage function
         async function processImage(imageBlob) {
+            // Ensure jsQR is loaded before processing
+            await ensureJsQRLoaded();
+
             const imageUrl = URL.createObjectURL(imageBlob);
             const img = new Image();
             
