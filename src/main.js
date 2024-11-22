@@ -191,6 +191,76 @@ async function processImage(imageBlob) {
     img.src = imageUrl;
 }
 
+// Initialize analytics through service worker
+const initAnalytics = () => {
+  if ('serviceWorker' in navigator) {
+    // Basic GA data structure
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){
+      const data = arguments;
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'GA_DATA',
+          payload: {
+            v: '2',  // GA4 version
+            tid: 'G-G3DB3NVECG',
+            cid: getCid(),  // Get client ID
+            t: data[0],
+            dl: window.location.href,
+            dr: document.referrer,
+            dt: document.title,
+            ul: navigator.language,
+            ...formatGtagData(data)
+          }
+        });
+      }
+    }
+    window.gtag = gtag;
+
+    // Initialize
+    gtag('js', new Date());
+    gtag('config', 'G-G3DB3NVECG', {
+      'send_page_view': true,
+      'transport_type': 'beacon'
+    });
+  }
+};
+
+// Helper to get/generate client ID
+const getCid = () => {
+  let cid = localStorage.getItem('ga_client_id');
+  if (!cid) {
+    cid = crypto.randomUUID();
+    localStorage.setItem('ga_client_id', cid);
+  }
+  return cid;
+};
+
+// Helper to format gtag data
+const formatGtagData = (data) => {
+  // Convert gtag format to Measurement Protocol
+  // This is a basic implementation
+  const formatted = {};
+  if (Array.isArray(data)) {
+    if (data[0] === 'event') {
+      formatted.en = data[1];
+      if (data[2]) {
+        Object.entries(data[2]).forEach(([key, value]) => {
+          formatted[`ep.${key}`] = value;
+        });
+      }
+    }
+  }
+  return formatted;
+};
+
+// Initialize when ready
+if (document.readyState === 'complete') {
+  initAnalytics();
+} else {
+  window.addEventListener('load', initAnalytics);
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadTheme();

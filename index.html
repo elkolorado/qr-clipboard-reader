@@ -336,27 +336,14 @@
 
     <script src="/dist/main.min.js" defer></script>
     <script>
-        // Defer GA loading until browser is idle
-        const loadAnalytics = () => {
-            const script = document.createElement('script');
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-G3DB3NVECG';
-            script.async = true;
-            document.head.appendChild(script);
-
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-G3DB3NVECG', {
-                'anonymize_ip': true,
-                'send_page_view': false
-            });
-        };
-
-        // Use requestIdleCallback if available, otherwise use setTimeout
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => loadAnalytics());
-        } else {
-            setTimeout(loadAnalytics, 500);
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registered');
+                })
+                .catch(error => {
+                    console.error('ServiceWorker registration failed:', error);
+                });
         }
     </script>
 </body>
