@@ -304,6 +304,21 @@
             height: 24px;
             fill: var(--text-color);
         }
+
+        .result-container {
+            & .result-label {
+                color: var(--hint-color);
+            }
+            & .result-content {
+                color: var(--success-color);
+                padding-top: 10px;
+                & a {
+                    text-decoration: underline;
+                }
+            }
+
+
+        }
     </style>
 </head>
 <body>

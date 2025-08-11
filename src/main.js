@@ -1,3 +1,32 @@
+// Helper to get/set cookies
+function setCookie(name, value, days = 365) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
+
+function getCookie(name) {
+    return document.cookie.split('; ').reduce((r, v) => {
+        const parts = v.split('=');
+        return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+    }, '');
+}
+// Render the QR result container with improved look
+function renderQRResult({ content, imageUrl, isUrl, extra = '' }) {
+    const contentHtml = isUrl
+        ? `<a href="${content}" target="_blank" rel="noopener noreferrer">${content}</a>`
+        : `<strong>${content}</strong>`;
+    const label = isUrl ? 'Link' : 'Text';
+    return `
+        <div class="result-container">
+        <div class="result-title">QR Code detected!</div>
+            <img src="${imageUrl}" class="detected-image" alt="Detected QR Code">
+            <div>
+                <div class="result-content">${contentHtml}</div>
+                ${extra ? `<div class="result-extra">${extra}</div>` : ''}
+            </div>
+        </div>
+    `;
+}
 // Wait for jsQR to load
 function ensureJsQRLoaded() {
     return new Promise((resolve) => {
@@ -41,44 +70,7 @@ function loadTheme() {
     }
 }
 
-function showLinkConfirmation(url) {
-    return new Promise((resolve) => {
-        const popup = document.getElementById('linkPopup');
-        const linkDisplay = popup.querySelector('.link-display');
-        const confirmBtn = popup.querySelector('.confirm');
-        const cancelBtn = popup.querySelector('.cancel');
-
-        linkDisplay.textContent = url;
-        popup.classList.add('popup-show');
-
-        const handleConfirm = () => {
-            cleanup();
-            resolve(true);
-        };
-
-        const handleCancel = () => {
-            cleanup();
-            resolve(false);
-        };
-
-        const handleOutsideClick = (e) => {
-            if (e.target === popup) {
-                handleCancel();
-            }
-        };
-
-        const cleanup = () => {
-            popup.classList.remove('popup-show');
-            confirmBtn.removeEventListener('click', handleConfirm);
-            cancelBtn.removeEventListener('click', handleCancel);
-            popup.removeEventListener('click', handleOutsideClick);
-        };
-
-        confirmBtn.addEventListener('click', handleConfirm);
-        cancelBtn.addEventListener('click', handleCancel);
-        popup.addEventListener('click', handleOutsideClick);
-    });
-}
+// showLinkConfirmation removed; links will open directly
 
 function isValidUrl(string) {
     try {
@@ -110,50 +102,18 @@ function showResult(message, isSuccess = true) {
 }
 
 async function handleQRContent(content, imageUrl) {
-    const resultHtml = `
-        <div class="result-container">
-            <img src="${imageUrl}" class="detected-image" alt="Detected QR Code">
-            <div>
-                QR Code detected!<br>
-                Content:<br>
-                <strong>${content}</strong>
-            </div>
-        </div>
-    `;
-    showResult(resultHtml, true);
-
+    const isUrl = isValidUrl(content);
+    showResult(renderQRResult({ content, imageUrl, isUrl }), true);
+    const autoActionCheckbox = document.getElementById('autoAction');
     if (autoActionCheckbox.checked) {
-        if (isValidUrl(content)) {
-            const shouldOpen = await showLinkConfirmation(content);
-            if (shouldOpen) {
-                window.open(content, '_blank');
-                showResult(`
-                    <div class="result-container">
-                        <img src="${imageUrl}" class="detected-image" alt="Detected QR Code">
-                        <div>
-                            QR Code detected!<br>
-                            Content:<br>
-                            <strong>${content}</strong><br><br>
-                            (Link opened in new tab)
-                        </div>
-                    </div>
-                `, true);
-            }
+        if (isUrl) {
+            window.open(content, '_blank');
+            showResult(renderQRResult({ content, imageUrl, isUrl, extra: '(Link opened in new tab)' }), true);
         } else {
             const copied = await copyToClipboard(content);
             if (copied) {
                 result.classList.add('copied');
-                showResult(`
-                    <div class="result-container">
-                        <img src="${imageUrl}" class="detected-image" alt="Detected QR Code">
-                        <div>
-                            QR Code detected!<br>
-                            Content:<br>
-                            <strong>${content}</strong><br><br>
-                            (Copied to clipboard!)
-                        </div>
-                    </div>
-                `, true);
+                showResult(renderQRResult({ content, imageUrl, isUrl, extra: '(Copied to clipboard!)' }), true);
                 setTimeout(() => result.classList.remove('copied'), 1500);
             }
         }
@@ -264,7 +224,17 @@ if (document.readyState === 'complete') {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadTheme();
-    
+
+    // Manage autoActionCheckbox state from cookies
+    const autoActionCheckbox = document.getElementById('autoAction');
+    const autoActionCookie = getCookie('autoAction');
+    if (autoActionCheckbox) {
+        autoActionCheckbox.checked = autoActionCookie === '1';
+        autoActionCheckbox.addEventListener('change', () => {
+            setCookie('autoAction', autoActionCheckbox.checked ? '1' : '0');
+        });
+    }
+
     // Theme toggle
     themeToggle.addEventListener('click', () => {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -292,4 +262,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         showResult('No image found in clipboard. Please copy an image first.', false);
     });
-}); 
+});
