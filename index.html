@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Primary Meta Tags -->
     <title>QR Code Reader - Clipboard Scanner | Free Online Tool</title>
     <meta name="title" content="QR Code Reader - Clipboard Scanner | Free Online Tool">
-    <meta name="description" content="Free online QR code reader that works directly with your clipboard. Paste screenshots of QR codes and instantly get their content. No upload needed, works offline.">
-    <meta name="keywords" content="qr code reader, clipboard scanner, online qr scanner, screenshot qr reader, free qr tool, qr code decoder, paste qr code">
+    <meta name="description"
+        content="Free online QR code reader that works directly with your clipboard. Paste screenshots of QR codes and instantly get their content. No upload needed, works offline.">
+    <meta name="keywords"
+        content="qr code reader, clipboard scanner, online qr scanner, screenshot qr reader, free qr tool, qr code decoder, paste qr code">
     <meta name="author" content="elkolorado">
     <meta name="robots" content="index, follow">
-    
+    <meta name="site_name" content="QR Code Reader - Clipboard Scanner | Free Online Tool">
+
     <!-- Favicon - Add your favicon files in different sizes -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -19,28 +23,31 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="QR Clip" />
     <link rel="manifest" href="/site.webmanifest" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://qr-clip.vercel.app/">
     <meta property="og:title" content="QR Code Reader - Instant Clipboard Scanner">
-    <meta property="og:description" content="Free online QR code reader that works directly with your clipboard. Just paste your QR code screenshot and get instant results.">
+    <meta property="og:description"
+        content="Free online QR code reader that works directly with your clipboard. Just paste your QR code screenshot and get instant results.">
     <meta property="og:image" content="https://qr-clip.vercel.app/og-image.png">
-    
+    <meta property="og:site_name" content="QR Code Reader - Clipboard Scanner | Free Online Tool">
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://qr-clip.vercel.app/">
     <meta property="twitter:title" content="QR Code Reader - Instant Clipboard Scanner">
-    <meta property="twitter:description" content="Free online QR code reader that works directly with your clipboard. Just paste your QR code screenshot and get instant results.">
+    <meta property="twitter:description"
+        content="Free online QR code reader that works directly with your clipboard. Just paste your QR code screenshot and get instant results.">
     <meta property="twitter:image" content="https://qr-clip.vercel.app/twitter-image.png">
-    
+
     <!-- Additional SEO Meta Tags -->
     <meta name="application-name" content="QR Code Reader">
     <meta name="theme-color" content="#4CAF50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="QR Reader">
-    
+
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
     {
@@ -68,6 +75,71 @@
         "url": "https://qr-clip.vercel.app"
     }
     </script>
+    <!-- FAQPage Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "How do I use QR Code Clipboard Reader?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Just press Ctrl+V (or Cmd+V on Mac) to paste a screenshot containing a QR code. The tool will instantly decode and display the content."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is QR Code Clipboard Reader free?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, it is completely free to use and works directly in your browser."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do I need to install anything?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No installation is required. The tool works online in any modern browser."
+                    }
+                }
+            ]
+        }
+    </script>
+
+    <!-- HowTo Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to read a QR code from your clipboard",
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "text": "Take a screenshot of a QR code (e.g., using Windows+Shift+S or Cmd+Shift+4 on Mac)."
+                },
+                {
+                    "@type": "HowToStep",
+                    "text": "Press Ctrl+V (or Cmd+V) on this page to paste the screenshot."
+                },
+                {
+                    "@type": "HowToStep",
+                    "text": "The QR code will be detected and its content displayed instantly."
+                }
+            ]
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "QR Code Reader - Clipboard Scanner | Free Online Tool",
+            "alternateName": "QR Code Reader - Clipboard Scanner | Free Online Tool",
+            "url": "https://qr-clip.vercel.app"
+        }
+    </script>
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
@@ -82,7 +154,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             height: 100vh;
             overflow: hidden;
         }
@@ -131,6 +204,7 @@
             height: 20px;
             vertical-align: middle;
         }
+
         #result {
             margin: 20px auto;
             padding: 20px;
@@ -140,27 +214,33 @@
             background-color: #f9f9f9;
             transition: all 0.3s ease;
         }
+
         canvas {
             display: none;
         }
+
         .status {
             color: #666;
             font-style: italic;
         }
+
         .success {
             color: #4CAF50;
             font-weight: bold;
             border-color: #4CAF50;
         }
+
         .error {
             color: #f44336;
             border-color: #f44336;
         }
+
         .hint {
             font-size: 0.9em;
             color: #666;
             margin: 10px 0;
         }
+
         .checkbox-wrapper {
             margin: 15px 0;
             display: flex;
@@ -168,21 +248,26 @@
             justify-content: center;
             gap: 8px;
         }
+
         .checkbox-wrapper input[type="checkbox"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
         }
+
         .checkbox-wrapper label {
             cursor: pointer;
             user-select: none;
         }
+
         .copied {
             background-color: #e8f5e9;
         }
+
         h1 {
             margin-bottom: 15px;
         }
+
         :root {
             /* Light theme variables */
             --bg-color: #ffffff;
@@ -224,9 +309,17 @@
             color: var(--hint-color);
         }
 
-        .success { color: var(--success-color); }
-        .error { color: var(--error-color); }
-        .hint { color: var(--hint-color); }
+        .success {
+            color: var(--success-color);
+        }
+
+        .error {
+            color: var(--error-color);
+        }
+
+        .hint {
+            color: var(--hint-color);
+        }
 
         /* Theme toggle styles */
         .theme-toggle {
@@ -309,9 +402,11 @@
             & .result-label {
                 color: var(--hint-color);
             }
+
             & .result-content {
                 color: var(--success-color);
                 padding-top: 10px;
+
                 & a {
                     text-decoration: underline;
                 }
@@ -321,19 +416,20 @@
         }
     </style>
 </head>
+
 <body>
     <div class="controls">
-        <a href="https://github.com/elkolorado/qr-clipboard-reader" 
-           class="icon-button" 
-           target="_blank"
-           aria-label="View on GitHub">
+        <a href="https://github.com/elkolorado/qr-clipboard-reader" class="icon-button" target="_blank"
+            aria-label="View on GitHub">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
             </svg>
         </a>
         <button class="icon-button" id="themeToggle" aria-label="Toggle theme">
             <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+                <path
+                    d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
             </svg>
         </button>
     </div>
@@ -362,4 +458,5 @@
         }
     </script>
 </body>
-</html> 
+
+</html>
